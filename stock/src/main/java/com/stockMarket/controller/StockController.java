@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("stocks")
@@ -20,6 +21,14 @@ public class StockController {
 //	@Cacheable(value = "stocks")
 	public List<Stock> getAllAirlines() {
 		return this.stockService.getStocks();
+	}
+
+	@GetMapping("getStock/{companyCode}")
+
+	public List<Stock> getStock(@PathVariable("companyCode") String companyCode) {
+		List<Stock> stockList= this.stockService.getStocks();
+		List<Stock> stockCompanyList=stockList.stream().filter(x->x.getCompanyCode().equalsIgnoreCase(companyCode)).collect(Collectors.toList());
+		return stockCompanyList;
 	}
 
 	@PostMapping("saveStocks")
