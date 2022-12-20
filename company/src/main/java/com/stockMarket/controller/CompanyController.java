@@ -28,12 +28,25 @@ public class CompanyController {
 		 this.companyService.saveCompanies(companies);
 	}
 
+	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping("getCompany/{companyCode}")
 
 	public List<Company> getCompany(@PathVariable("companyCode") String companyCode) {
 		List<Company> companyList= this.companyService.getCompanies();
 		List<Company> stockCompanyList=companyList.stream().filter(x->x.getCompanyCode().equalsIgnoreCase(companyCode)).collect(Collectors.toList());
 		return stockCompanyList;
+	}
+
+	@PostMapping("deleteCompany/{id}")
+	public void deleteCompany(@PathVariable("id") String id) {
+		this.companyService.deleteCompany(id);
+	}
+
+	@PutMapping("editCompany/{id}/{companyCode}/{companyName}")
+	public void editStocks(@PathVariable("id") String id,
+						   @PathVariable("companyCode") String companyCode,
+						   @PathVariable("companyName") String companyName) {
+		this.companyService.editCompany(id,companyCode,companyName);
 	}
 
 }

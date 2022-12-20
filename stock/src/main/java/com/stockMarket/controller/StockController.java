@@ -6,6 +6,7 @@ import com.stockMarket.services.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,7 @@ public class StockController {
 		return this.stockService.getStocks();
 	}
 
+	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping("getStock/{companyCode}")
 
 	public List<Stock> getStock(@PathVariable("companyCode") String companyCode) {
@@ -35,6 +37,17 @@ public class StockController {
 //	@Cacheable(value = "stocks")
 	public void saveStocks(@RequestBody List<Stock> stocks) {
 		 this.stockService.saveStocks(stocks);
+	}
+
+	@PostMapping("deleteStocks/{stockId}")
+	public void deleteStocks(@PathVariable("stockId") String stockId) {
+		this.stockService.deleteStocks(stockId);
+	}
+
+	@PutMapping("editStocks/{stockId}/{companyCode}")
+	public void editStocks(@PathVariable("stockId") String stockId,
+						   @PathVariable("companyCode") String companyCode) {
+		this.stockService.editStocks(stockId,companyCode);
 	}
 
 }
